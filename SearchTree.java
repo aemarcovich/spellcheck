@@ -75,6 +75,9 @@ public class SearchTree implements Storage
 			return find(x,root.left);
 		}
 	}
+	/**
+	*prints out the first suggestion.
+	*/
 	public String suggest(String x)
 	{
 		return suggest(x,head);
@@ -85,7 +88,7 @@ public class SearchTree implements Storage
 			return lastw;
 		else if(root.data.compareToIgnoreCase(x)==0)
 			return root.data;
-		else if(root.data.compareToIgnoreCase(x)<0)
+		else if(root.data.compareToIgnoreCase(x)>0)
 		{
 			if(mem==1)
 			{
@@ -94,11 +97,11 @@ public class SearchTree implements Storage
 			}
 			else
 			{
-				lastw2=root.data;
+				//lastw2=root.data;
 				mem=1;
 			}
 			lastw=root.data;
-			System.out.println(lastw);
+			//System.out.println(lastw);
 			return suggest(x,root.right);
 		}
 		else
@@ -110,16 +113,21 @@ public class SearchTree implements Storage
 			}
 			else
 			{
-				lastw2=root.data;
+				//lastw2=root.data;
 				mem=1;
 			}
 			lastw=root.data;
-			System.out.println(lastw);
+			//System.out.println(lastw);
+			lastw2=lastw;
+			//System.out.println(lastw2);
 			return suggest(x,root.left);
 		}
 	}
-	public void sug()
+	/**
+	*print out the second suggestion.
+	*/
+	public String sug()
 	{
-		System.out.println(lastw2);
+		return lastw2;
 	}
 }
