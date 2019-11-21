@@ -1,3 +1,6 @@
+/**
+*Alejandro Marcovich
+*/
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -5,6 +8,7 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.File;
+import java.io.*;
 import java.lang.*;
 import java.util.Properties;
 public class CS245A1 
@@ -15,6 +19,9 @@ public class CS245A1
 	public String lastw;
 	public int counter=0;
 	private Storage shell;
+	private String input;
+	public String output;
+	public int swit;
 	private final String dict_name="english.0";
 	public CS245A1()
 	{
@@ -22,7 +29,9 @@ public class CS245A1
 		//head=null;
 	}
 
-		//getstore
+		/**
+		*gets the storage;
+		*/
 		public void getStorage()
 		{
 			//File choice= new File("alproperties.txt");
@@ -41,15 +50,33 @@ public class CS245A1
 			if(props.get("storage").equals("tree"))
 			{
 				shell= new SearchTree();
+				swit=1;
 			}
 			else
 			{
 				shell= new Trie();
+				swit=2;
 			}
 		}
-
+		/**
+		*sets the input file
+		*/
+		public void set_input(String line)
+		{
+			input=line;
+		}
+		/**
+		*sets the output file
+		*/
+		public void set_output(String line)
+		{
+			output=line;
+		}
 		//readfile
 		//Scanner scanner= new Scanner(choice);
+		/**
+		*reads from the dictionary.
+		*/
 		public void readDic() throws FileNotFoundException
 		{
 			ArrayList<String> d=new ArrayList<String>();
@@ -65,18 +92,25 @@ public class CS245A1
 					continue;
             	System.out.println(line);
             	//test for length
-            	d.add(line);
+            	if(swit==1)
+            		d.add(line);
+            	else
+            		shell.add(line);
             	//shell.add(line);
         	}
-        	arrinsert(d,0,d.size()-1,shell);
+        	if(swit==1)
+        		arrinsert(d,0,d.size()-1,shell);
 
 		}
+		/*
+		*adds the strings in like a binary tree.
+		*/
 		private void arrinsert(ArrayList<String> list, int st, int en, Storage shell)
 		{
 			if(st<=en)
 			{
 				int mid=(st+en)/2;
-				System.out.println(list.get(mid)+"test");
+				//System.out.println(list.get(mid)+"test");
 				shell.add(list.get(mid));
 				arrinsert(list, mid+1, en,shell);
 				arrinsert(list,st,mid-1,shell);
@@ -85,21 +119,43 @@ public class CS245A1
 		}
         //get out put
         //code for search tree.
-        public void get_output()
-        {
-        	System.out.println("Please provide a word: ");
-        	Scanner text= new Scanner(System.in);
-        	String word=text.nextLine();
-        	if(shell.find(word)==true)
-        	{
-        		System.out.println("Great! No spell check needed!");
+        /*
+        *retrive the output.Get file input.
+        *return compenents to output.
+        */
+        public void get_output()  throws FileNotFoundException, IOException
+        {	
+        	BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+    		//writer.write(fileContent);
+    		
+        	//PrintStream o = new PrintStream(new File(output));
+        	File file= new File(input);
+			Scanner text = new Scanner(file);
+        	//System.out.println("Please provide a word: ");
+        	//Scanner text= new Scanner(System.in);
+        	while(text.hasNextLine()){
+	        	String word=text.nextLine();
+	        	System.out.println(word);
+	        	if(shell.find(word)==true)
+	        	{
+	        		System.out.println("Great! No spell check needed!");
+	        		writer.write("Great! No spell check needed!"+"\n");
+	        	}
+	        	else
+	        	{
+
+	        		System.out.println("Did you mean?");
+	        		writer.write("Did you mean?\n");
+	        		String sug1=shell.suggest(word);
+	        		System.out.println(sug1);
+	        		writer.write(sug1+"\n");
+	        		String sug2=shell.sug();
+	        		System.out.println(sug2);
+	        		writer.write(sug2+"\n");
+	        		
+	        	}
         	}
-        	else
-        	{
-        		System.out.println("Did you mean?");
-        		String sug1=shell.suggest(word);
-        		//shell.sug();
-        	}
+        	writer.close();
         }
 	/*
 	*Main function should the main reas the english.0 file
@@ -111,8 +167,20 @@ public class CS245A1
 	public static void main(String[] args) throws FileNotFoundException
 	{
 		CS245A1 drive=new CS245A1();
+		if(args.length>0)
+		{
+			drive.set_input(args[0]);
+			drive.set_output(args[1]);
+		}
 		drive.getStorage();
 		drive.readDic();
-		drive.get_output();
+		try
+		{
+			drive.get_output();
+		}
+		catch(IOException e)
+		{
+			System.out.println("can't");
+		}
     }
 }
