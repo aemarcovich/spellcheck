@@ -83,14 +83,13 @@ public class CS245A1
 			//shell=new SearchTree();
 			File dictionary= new File(dict_name);
 			Scanner scan = new Scanner(dictionary);
-			//while(scan.hasNextLine())
-			for(int x=0;x<10;x++)
+			while(scan.hasNextLine())
 			{ 
 				String line = scan.nextLine();
 				int linesz=line.length();
 				if (linesz==0)
 					continue;
-            	System.out.println(line);
+            	//System.out.println(line);
             	//test for length
             	if(swit==1)
             		d.add(line);
