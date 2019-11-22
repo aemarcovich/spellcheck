@@ -142,7 +142,8 @@ public class CS245A1
 	        	}
 	        	else
 	        	{
-
+	        		System.out.println("false");
+	        		writer.write("false\n");
 	        		System.out.println("Did you mean?");
 	        		writer.write("Did you mean?\n");
 	        		String sug1=shell.suggest(word);
