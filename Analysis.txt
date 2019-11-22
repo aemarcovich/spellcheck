@@ -1,0 +1,6 @@
+The trie has a find and add function that works faster than a binaray search tree. 
+It has a worst case O(n) with the n being the search string size.
+While Binaray Search has a worst case of log(n).
+The trie can easily relpace hashing, as it puts everything in Alphabetical order.
+While the Trie should be faster, it needs the most memory for each node used.
+It'll have a node for evey letter in the Alhpabet. While bst has only a left and right child.
