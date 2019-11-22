@@ -282,7 +282,11 @@ public class Trie implements Storage
         }
         return null;
     }
-        //return null;
+        /**
+	* Searches the prefix tree letter by letter.
+	* when it reaches the end of a word it returns
+	*true false otherwise.
+	*/
 	public boolean find(String x)
 	{
 		//return find(head,"*"+x,0);
@@ -481,7 +485,10 @@ public class Trie implements Storage
         }
 		return false;
 	}
-
+	/**
+	*dfs goes through the trie until it finds a word.
+	*adds it to an array list of strings. Does this twice.
+	*/
 	private void dfs(Prefix root, StringBuilder sb)
 	{
 		if(list.size()==2)
@@ -651,12 +658,18 @@ public class Trie implements Storage
 			dfs(root.ap,strb);
         }
 	}
+	/**
+	* calls dfs and returns the first item.
+	*/
 	public String suggest(String x)
 	{
 		StringBuilder st= new StringBuilder();
 		dfs(head,st);
 		return list.get(0);
 	}
+	/**
+	*returns the second suggestion.
+	*/
 	public String sug()
 	{
 		return list.get(1);
